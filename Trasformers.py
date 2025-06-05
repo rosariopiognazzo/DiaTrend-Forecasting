@@ -38,6 +38,7 @@ class PositionalEmbedding(tf.keras.layers.Layer):
     x = x + pos_encoding_dense[tf.newaxis, :length, :]
     return x
 
+## ATTENTIONS
 # (1) Tipologia di <Attention>: Cross Attention
 # Questa tipolgia si trova al centro del Transformer e connette l'encoder e il decoder.
 class CrossAttention(tf.keras.layers.Layer):
@@ -100,7 +101,7 @@ class CausalSelfAttention(tf.keras.layers.Layer):
     x = self.add([x, attn_output])
     x = self.layernorm(x)
     return x
-  
+
 ## FEED FORWARD LAYER
 # Il trasformer include layer di feed forward sia nell'encoder che nel decoder
 # 2 linear networks con ReLU come attivazione e dropout
@@ -194,6 +195,7 @@ class Encoder(tf.keras.layers.Layer):
                      dropout_rate=dropout_rate)
         for _ in range(num_layers)]
     self.dropout = tf.keras.layers.Dropout(dropout_rate)
+
   def call(self, x):
     # x shape: (batch, seq_len, features) se time series, altrimenti (batch, seq_len) per token IDs
     x = self.embedding(x)  # Shape `(batch_size, seq_len, d_model)`.
